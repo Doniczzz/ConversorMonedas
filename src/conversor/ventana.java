@@ -110,7 +110,12 @@ public class ventana extends javax.swing.JFrame {
         });
         jMenuBar1.add(salir);
 
-        jMenu2.setText("Conversor de peso");
+        jMenu2.setText("Calcular mi IMC");
+        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu2MouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -210,11 +215,18 @@ public class ventana extends javax.swing.JFrame {
     }//GEN-LAST:event_moneda2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        double inputValor;
+        double inputValor = 0;
         try {
             inputValor = Double.parseDouble(monedaInput.getText());
+            if(inputValor < 0){
+                throw new ErrorNumerosNegativos("Error: Número negativo");
+            }
+            
         } catch (NumberFormatException e) {
             resultado.setText("Error: Sólo números");
+            return;
+        } catch (ErrorNumerosNegativos e){
+            resultado.setText(e.getMessage());
             return;
         }
         
@@ -240,6 +252,12 @@ public class ventana extends javax.swing.JFrame {
     private void salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseClicked
         System.exit(0);
     }//GEN-LAST:event_salirMouseClicked
+
+    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
+        ImcCalculador imc = new ImcCalculador();
+        imc.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jMenu2MouseClicked
 
     /**
      * @param args the command line arguments
